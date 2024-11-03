@@ -43,7 +43,23 @@ agent any
               }
           }
         }
-        
+        stage('Code Analysis') {
+            environment {
+                scannerHome = tool 'Sonar'
+            }
+            steps {
+                script {
+                    withSonarQubeEnv('Sonar') {
+                        sh "${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=backend \
+                            -Dsonar.projectName=backend \
+                            -Dsonar.projectVersion=4.1.0 \
+                            -Dsonar.sources=<project-path>"
+                    }
+                }
+            }
+        }
+    }
     }
 
 
